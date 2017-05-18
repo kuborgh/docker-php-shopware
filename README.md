@@ -21,5 +21,6 @@ Docker PHP-FPM Container for shopware projects. It is configured with following 
 * zip
 * gd
 * APCu
+* ioncube loader
 
 The `xdebug` variant has xdebug installed and enabled. It should only be used on non-production environments!
