@@ -68,3 +68,6 @@ RUN apt-get update && \
 RUN curl -o /usr/local/bin/composer.phar http://getcomposer.org/composer.phar && \
   chmod +x /usr/local/bin/composer.phar && \
   ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+
+# Add some basic php.ini directives
+ADD php.ini /usr/local/etc/php/conf.d/php-ini-overrides.ini
