@@ -64,6 +64,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Enable mailing via ssmtp
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ssmtp && \
+	apt-get clean && \
+	rm -r /var/lib/apt/lists/*
+
 # download composer as fallback if non is provided
 RUN curl -o /usr/local/bin/composer.phar http://getcomposer.org/composer.phar && \
   chmod +x /usr/local/bin/composer.phar && \
