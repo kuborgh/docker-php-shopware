@@ -1,20 +1,14 @@
-FROM php:7.0-fpm
+FROM kuborgh/php:7.0-fpm
 
 # Add some native php extensions
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng12-dev \
-        libbz2-dev \
-        libxml2 \
-        libxml2-dev \
-        libicu-dev \
-        libsqlite3-dev \
-        libedit-dev \
-        libxslt-dev \
+        icu-devtools libbsd-dev libbz2-dev libedit-dev libfreetype6 libfreetype6-dev \
+        libicu-dev libicu52 libjpeg62-turbo libjpeg62-turbo-dev libmcrypt-dev \
+        libmcrypt4 libpng12-0 libpng12-dev libsqlite3-dev libtinfo-dev libxml2-dev \
+        libxslt1-dev libxslt1.1 zlib1g-dev \
     && \
+    rm -r /var/lib/apt/lists/* && \
     docker-php-ext-configure gd \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
@@ -44,12 +38,17 @@ RUN apt-get update &&\
     && \
 
     # Clean up
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get purge -y \
+        icu-devtools libbsd-dev libbz2-dev libedit-dev libfreetype6-dev \
+        libicu-dev libjpeg62-turbo-dev libmcrypt-dev \
+        libpng12-dev libsqlite3-dev libtinfo-dev libxml2-dev \
+        libxslt1-dev zlib1g-dev
 
 # APCu
-RUN pecl install apcu && \
-    docker-php-ext-enable apcu
+RUN docker-php-source extract && \
+    pecl install apcu && \
+    docker-php-ext-enable apcu && \
+    docker-php-source delete
 
 # ioncube loader
 RUN apt-get update && \
